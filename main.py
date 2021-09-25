@@ -26,6 +26,16 @@ sanitizer_y = 480
 sanitizer_x_move = 0
 sanitizer_y_move = 0
 
+# Create enemy (COVID)
+enemy = pygame.image.load("covid_icon.bmp")
+enemy_x = 370
+enemy_y = 480
+
+# Movement of sanitizer to be added to sanitizer_x and sanitizer_y
+enemy_x_move = 0
+enemy_y_move = 0
+
+# Position of enemy
 
 # Define function to show and control sanitizer
 def sanitizer_control(x, y):
