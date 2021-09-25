@@ -42,18 +42,25 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # User control to the sanitizer
+        # User control to the sanitizer
         # When user pressing key, check what key that user pressed
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 sanitizer_x_move -= 2
             if event.key == pygame.K_RIGHT:
                 sanitizer_x_move += 2
+            if event.key == pygame.K_DOWN:
+                sanitizer_y_move += 2
+            if event.key == pygame.K_UP:
+                sanitizer_y_move -= 2
+
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 sanitizer_x_move = 0
+            if event.key == pygame.K_DOWN or event.key == pygame.K_UP:
+                sanitizer_y_move = 0
 
     sanitizer_x += sanitizer_x_move
-    sanitizer_y -= 2
+    sanitizer_y += sanitizer_y_move
     sanitizer_control(sanitizer_x, sanitizer_y)
     pygame.display.update()
