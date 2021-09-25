@@ -62,5 +62,15 @@ while running:
 
     sanitizer_x += sanitizer_x_move
     sanitizer_y += sanitizer_y_move
+
+    if sanitizer_x <= -10:
+        sanitizer_x = -10
+    elif sanitizer_x >= 750:
+        sanitizer_x = 750
+    if sanitizer_y <= 0:
+        sanitizer_y = 0
+    elif sanitizer_y >= 525:
+        sanitizer_y = 525
+
     sanitizer_control(sanitizer_x, sanitizer_y)
     pygame.display.update()
