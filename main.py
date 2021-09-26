@@ -35,6 +35,7 @@ enemy_y = 480
 enemy_x_move = 0
 enemy_y_move = 0
 
+
 # Position of enemy
 
 # Define function to show and control sanitizer
@@ -46,7 +47,7 @@ def sanitizer_control(x, y):
 running = True
 while running:
     # Red Green Blue
-    screen.fill((0, 255, 0))
+    screen.fill((173, 216, 230))
     # Check if use click x button of the window. If true, exit game.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -56,13 +57,13 @@ while running:
         # When user pressing key, check what key that user pressed
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                sanitizer_x_move -= 2
+                sanitizer_x_move -= 1
             if event.key == pygame.K_RIGHT:
-                sanitizer_x_move += 2
+                sanitizer_x_move += 1
             if event.key == pygame.K_DOWN:
-                sanitizer_y_move += 2
+                sanitizer_y_move += 1
             if event.key == pygame.K_UP:
-                sanitizer_y_move -= 2
+                sanitizer_y_move -= 1
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
