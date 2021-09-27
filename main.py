@@ -35,6 +35,7 @@ enemy_y = 480
 enemy_x_move = 0
 enemy_y_move = 0
 
+
 # Position of enemy
 
 # Define function to show and control sanitizer
