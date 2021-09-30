@@ -1,5 +1,6 @@
 # Import the pygame module
 import pygame
+import random
 
 # Initialize pygame module
 pygame.init()
@@ -27,20 +28,50 @@ sanitizer_x_move = 0
 sanitizer_y_move = 0
 
 # Create enemy (COVID)
-enemy = pygame.image.load("covid_icon.bmp")
-enemy_x = 370
-enemy_y = 480
+covid = pygame.image.load("covid_icon.bmp")
+
+# Position
+# y -= number (up), y += number (down)
+# x -= number (left), y += number (right)
+covid_x = random.randint(10, 800)
+covid_y = random.randint(50, 150)
 
 # Movement of sanitizer to be added to sanitizer_x and sanitizer_y
-enemy_x_move = 0
-enemy_y_move = 0
+covid_x_move = 3
+covid_y_move = 0.1
 
+# Create hand enemy (COVID)
+droplets = pygame.image.load("water_drops.bmp")
 
-# Position of enemy
+# Position
+# y -= number (up), y += number (down)
+# x -= number (left), y += number (right)
+droplets_x = 0
+droplets_y = 480
+
+# Bullet state - ready = store in sanitizer ( unable to see it)
+#                shoot = shooting to COVID ( able to see )
+droplets_state = "ready"
+
+# Movement of sanitizer to be added to sanitizer_x and sanitizer_y
+droplets_x_move = 0
+droplets_y_move = 10
+
 
 # Define function to show and control sanitizer
 def sanitizer_control(x, y):
     screen.blit(sanitizer, (x, y))
+
+
+# Define function to show and control COVID
+def covid_control(x, y):
+    screen.blit(covid, (x, y))
+
+
+def shoot(x, y):
+    global droplets_state
+    droplets_state = "shoot"
+    screen.blit(droplets, (x, y))
 
 
 # Create simple game loop
@@ -57,13 +88,13 @@ while running:
         # When user pressing key, check what key that user pressed
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                sanitizer_x_move -= 2
+                sanitizer_x_move -= 10
             if event.key == pygame.K_RIGHT:
-                sanitizer_x_move += 2
-            if event.key == pygame.K_DOWN:
-                sanitizer_y_move += 2
-            if event.key == pygame.K_UP:
-                sanitizer_y_move -= 2
+                sanitizer_x_move += 10
+            if event.key == pygame.K_SPACE:
+                if droplets_state is "ready":
+                    droplets_x = sanitizer_x
+                    shoot(droplets_x, droplets_y)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -83,5 +114,23 @@ while running:
     elif sanitizer_y >= 525:
         sanitizer_y = 525
 
+    covid_x += covid_x_move
+    covid_y += covid_y_move
+
+    if covid_x <= -10:
+        covid_x_move = 3
+        covid_y += covid_y_move
+    elif covid_x >= 750:
+        covid_x_move = -3
+
+    if droplets_y <= 0:
+        droplets_state = "ready"
+        droplets_y = 480
+
+    if droplets_state == "shoot":
+        shoot(droplets_x, droplets_y)
+        droplets_y -= droplets_y_move
+
     sanitizer_control(sanitizer_x, sanitizer_y)
+    covid_control(covid_x, covid_y)
     pygame.display.update()
