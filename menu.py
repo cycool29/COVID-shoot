@@ -15,7 +15,9 @@ background = pygame_menu.baseimage.BaseImage(
 )
 
 
+# main function
 def play():
+    # Add 321 countdown
     window = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
     font = pygame.font.SysFont('Quicksand-SemiBold.ttf', 100)
@@ -36,17 +38,18 @@ def play():
                     pygame.time.set_timer(timer_event, 0)
                     import main
                     run = False
-
+        # Fill screen in black
         window.fill((0, 0, 0))
         text_rect = text.get_rect(center=window.get_rect().center)
         window.blit(text, text_rect)
         pygame.display.flip()
 
 
+# Create theme and use covid as background
 theme = pygame_menu.themes.THEME_DARK.copy()
 theme.background_color = background
 
-
+# Simple help section
 def help_menu():
     help_page = pygame_menu.Menu('Help', 800, 600, theme=theme)
     help_text = f"Use RIGHT and LEFT to move right and left the hand sanitizer. \nPress SPACE to shoot a droplet.\n "
@@ -63,4 +66,5 @@ def main_menu():
     menu.mainloop(surface)
 
 
+# Run the program
 main_menu()
