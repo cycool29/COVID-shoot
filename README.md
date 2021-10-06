@@ -23,10 +23,10 @@ python3 ./main.py
 
 There are three options: `Play`, `Help` and `Quit`
 
-After clicking `PLay`, it will popup a 3 secs countdown and the game will start!
+After clicking `Play`, it will popup a 3 secs countdown and the game will start!
 
-- **To shoot** -> press SPACE
-- **To move the sanitizer** -> press RIGHT key and LEFT key
+- **To shoot** -> press <kbd>SPACE</kbd>
+- **To move the sanitizer** -> press <kbd>RIGHT</kbd> key and <kbd>LEFT</kbd> key
 
 ## Contributing
 
