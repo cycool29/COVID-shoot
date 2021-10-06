@@ -3,7 +3,6 @@ import pygame
 import random
 import math
 
-
 # Initialize pygame module
 pygame.init()
 
@@ -47,8 +46,8 @@ for i in range(covid_num):
     covid_y.append(random.randint(50, 150))
 
     # Movement of sanitizer to be added to sanitizer_x and sanitizer_y
-    covid_x_move.append(3)
-    covid_y_move.append(0.1)
+    covid_x_move.append(random.randint(5, 10))
+    covid_y_move.append(random.uniform(0.1, 0.5))
 
 # Create enemy (COVID)
 droplets = pygame.image.load("water_drops.bmp")
@@ -76,8 +75,9 @@ text_y = 10
 
 
 def show_score(x, y):
-    score = font.render("Score: " + str(score_value), True, (0, 0, 0))
+    score = font.render("Score: " + str(score_value), True, (0, 255, 0))
     screen.blit(score, (x, y))
+
 
 # Define function to show and control sanitizer
 def sanitizer_control(x, y):
@@ -107,7 +107,7 @@ def shoot(x, y):
 running = True
 while running:
     # Red Green Blue
-    screen.fill((0, 255, 0))
+    screen.fill((0, 0, 0))
     # Check if use click x button of the window. If true, exit game.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -117,9 +117,9 @@ while running:
         # When user pressing key, check what key that user pressed
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                sanitizer_x_move -= 10
+                sanitizer_x_move -= 15
             if event.key == pygame.K_RIGHT:
-                sanitizer_x_move += 10
+                sanitizer_x_move += 15
             if event.key == pygame.K_SPACE:
                 if droplets_state is "ready":
                     droplets_x = sanitizer_x
@@ -144,14 +144,16 @@ while running:
         sanitizer_y = 525
 
     for i in range(covid_num):
+
+
         covid_x[i] += covid_x_move[i]
         covid_y[i] += covid_y_move[i]
 
         if covid_x[i] <= -10:
-            covid_x_move[i] = 3
+            covid_x_move[i] = 10
             covid_y[i] += covid_y_move[i]
         elif covid_x[i] >= 750:
-            covid_x_move[i] = -3
+            covid_x_move[i] = -10
             covid_y[i] += covid_y_move[i]
 
         collision = isCollision(covid_x[i], covid_y[i], droplets_x, droplets_y)
