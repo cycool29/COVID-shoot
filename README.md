@@ -21,6 +21,13 @@ cd shooting-game
 python3 ./main.py
 ```
 
+There are three options: `Play`, `Help` and `Quit`
+
+After clicking `PLay`, it will popup a 3 secs countdown and the game will start!
+
+- **To shoot** -> press SPACE
+- **To move the sanitizer** -> press RIGHT key and LEFT key
+
 ## Contributing
 
 You may just [run the code](https://github.com/cycool29/shooting-game/new/main?readme=1#usage), and [open a new issue](https://github.com/cycool29/shooting-game/issues/new) to let me know bugs and where to improve !
