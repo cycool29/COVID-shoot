@@ -1,3 +1,4 @@
+import main
 import pygame
 import pygame_menu
 
@@ -36,8 +37,9 @@ def play():
                 text = font.render(str(counter), True, (255, 0, 0))
                 if counter == 0:
                     pygame.time.set_timer(timer_event, 0)
-                    import main
                     run = False
+                    main.main_loop()
+                    # run = False
         # Fill screen in black
         window.fill((0, 0, 0))
         text_rect = text.get_rect(center=window.get_rect().center)
@@ -49,19 +51,20 @@ def play():
 theme = pygame_menu.themes.THEME_DARK.copy()
 theme.background_color = background
 
+
 # Simple help section
 def help_menu():
     help_page = pygame_menu.Menu('Help', 800, 600, theme=theme)
     help_text = f"Use RIGHT and LEFT to move right and left the hand sanitizer. \nPress SPACE to shoot a droplet.\n "
     help_page.add.label(help_text, max_char=-1, font_size=20)
-    help_page.add.button('Return to Menu', action=main_menu)
+    help_page.add.button('Return to Main menu', action=main_menu)
     help_page.mainloop(surface)
 
 
 def main_menu():
     menu = pygame_menu.Menu('Covid-shoot', 800, 600, theme=theme)
     menu.add.button('Play', action=play)
-    menu.add.button('Help', action=help_menu)
+    menu.add.button('How to play?', action=help_menu)
     menu.add.button('Quit', pygame_menu.events.EXIT)
     menu.mainloop(surface)
 
