@@ -55,7 +55,8 @@ theme.background_color = background
 # Simple help section
 def help_menu():
     help_page = pygame_menu.Menu('Help', 800, 600, theme=theme)
-    help_text = f"Use RIGHT and LEFT to move right and left the hand sanitizer. \nPress SPACE to shoot a droplet.\n "
+    help_text = f"Use RIGHT key and LEFT key to move the hand sanitizer right and left. \nPress SPACE to shoot a " \
+                f"droplet.\n "
     help_page.add.label(help_text, max_char=-1, font_size=20)
     help_page.add.button('Return to Main menu', action=main_menu)
     help_page.mainloop(surface)

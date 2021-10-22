@@ -81,14 +81,6 @@ hover_x = 20
 hover_y = 10
 
 
-def show_help(x, y):
-    hover_text = font.render("Help", True, (0, 255, 0))
-    screen.blit(hover_text, (x, y))
-    hover_r = hover_text.get_rect()
-    hover_r.x, hover_r.y = 300, 300
-    return hover_r
-
-
 def tooltips(x, y):
     tooltip = font.render(f"Use RIGHT and LEFT to move right and left the hand sanitizer. \nPress SPACE to shoot a "
                           f"droplet.\n Press Q to exit he game.\n", True, (0, 255, 0))
@@ -110,7 +102,7 @@ def covid_control(x, y, img):
     screen.blit(covid[img], (x, y))
 
 
-def isCollision(enemy_x, enemy_y, bullet_x, bullet_y):
+def collision(enemy_x, enemy_y, bullet_x, bullet_y):
     distance = math.sqrt((math.pow(enemy_x - bullet_x, 2)) + (math.pow(enemy_y - bullet_y, 2)))
     if distance < 27:
         return True
@@ -202,12 +194,11 @@ def main_loop():  # Red Green Blue
                 covid_x_move[i] = -10
                 covid_y[i] += covid_y_move[i]
 
-            collision = isCollision(covid_x[i], covid_y[i], droplets_x, droplets_y)
-            if collision:
+            is_collision = collision(covid_x[i], covid_y[i], droplets_x, droplets_y)
+            if is_collision:
                 droplets_y = 480
                 droplets_state = "ready"
                 score_value += 1
-                print(score_value)
                 covid_x[i] = random.randint(0, 800)
                 covid_y[i] = random.randint(50, 150)
 
@@ -223,8 +214,4 @@ def main_loop():  # Red Green Blue
 
         sanitizer_control(sanitizer_x, sanitizer_y)
         show_score(text_x, text_y)
-        hover_r = show_help(help_x, help_y)
-        if hover_r.collidepoint(pygame.mouse.get_pos()):
-            print('Detected')
-        print(hover_r.x)
         pygame.display.update()
