@@ -19,11 +19,6 @@ cd shooting-game
 python3 ./menu.py
 ```
 
-***Note: if you get `NotImplementedError: font module not available (ImportError: libSDL2_ttf-2.0.so.0: cannot open shared object file: No such file or directory)` error, install `libsdl2-ttf-2.0-0` using `sudo apt install libsdl2-ttf-2.0-0`***
-
-***Note again: if you get `ImportError: No module named PIL` error, install `Pillow` module using `pip3 install Pillow`***
-
-
 Now you should be presented with this screen:
 
 ![image](https://user-images.githubusercontent.com/88134003/138396670-9c0e85de-b623-48d6-b86e-28265c71aa94.png)
@@ -36,9 +31,27 @@ So, let's click Play, after a 3 secs countdown, the game started and enjoy!
 
 ![image](https://user-images.githubusercontent.com/88134003/138398555-8e17dbd0-84d0-42a9-9c89-f99a276e2c5f.png)
 
+
 ## To-do
 
 See the [project page](https://github.com/cycool29/shooting-game/projects/1).
+
+
+## Known bugs and common fixes
+
+Look here before open an issue.
+
+- `NotImplementedError: font module not available` 
+
+  Install `libsdl2-ttf-2.0-0` using `sudo apt install libsdl2-ttf-2.0-0` in Linux Debian-flavor distros. Please open an issue if you got this error in Windows or   MacOS.
+
+- `ImportError: No module named PIL`
+
+  Install `Pillow` module using `pip3 install Pillow`
+
+- `NotImplementedError: mixer module not available`
+
+  Install PySDL2 using `pip3 install PySDL2`
 
 
 ## Contributing
