@@ -63,7 +63,7 @@ def help_menu():
 
 
 def main_menu():
-    menu = pygame_menu.Menu('Covid-shoot', 800, 600, theme=theme)
+    menu = pygame_menu.Menu('COVID-shoot', 800, 600, theme=theme)
     menu.add.button('Play', action=play)
     menu.add.button('How to play?', action=help_menu)
     menu.add.button('Quit', pygame_menu.events.EXIT)
