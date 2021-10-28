@@ -23,7 +23,7 @@ sanitizer = pygame.image.load("sanitizer.bmp")
 # y -= number (up), y += number (down)
 # x -= number (left), y += number (right)
 sanitizer_x = 370
-sanitizer_y = 480
+sanitizer_y = 500
 
 # Movement of sanitizer to be added to sanitizer_x and sanitizer_y
 sanitizer_x_move = 0
@@ -74,24 +74,30 @@ font = pygame.font.Font('Quicksand-SemiBold.ttf', 32)
 text_x = 10
 text_y = 10
 
+help_x = 150
+help_y = 100
+
+hover_x = 20
+hover_y = 10
+
 over_font = pygame.font.Font('Quicksand-SemiBold.ttf', 64)
 
 
 def show_score(x, y):
-    score = font.render("Score: " + str(score_value), True, (255, 0, 0))
+    score = font.render("Score: " + str(score_value), True, (0, 255, 0))
     screen.blit(score, (x, y))
+
+
+def game_over():
+    over_text = over_font.render("GAME OVER ...", True, (255, 0, 0))
+    over_caption = font.render("Press Esc to exit.", True, (255, 0, 0))
+    screen.blit(over_text, (200, 200))
+    screen.blit(over_caption, (270, 280))
 
 
 # Define function to show and control sanitizer
 def sanitizer_control(x, y):
     screen.blit(sanitizer, (x, y))
-
-
-def game_over():
-    over_text = over_font.render("GAME OVER...", True, (255, 0, 0))
-    over_captions = font.render("Press ESC to exit.", True, (255, 0, 0))
-    screen.blit(over_text, (200, 250))
-    screen.blit(over_captions, (250, 320))
 
 
 # Define function to show and control COVID
@@ -111,6 +117,32 @@ def shoot(x, y):
     global droplets_state
     droplets_state = "shoot"
     screen.blit(droplets, (x, y))
+
+
+def reset_covid(): # Reset covid stats after game over and exit
+    global covid
+    global covid_x
+    global covid_y
+    global covid_y_move
+    global covid_x_move
+    covid = []
+    covid_x = []
+    covid_y = []
+    covid_y_move = []
+    covid_x_move = []
+    for enemy in range(covid_num):
+        # Create enemy (COVID)
+        covid.append(pygame.image.load("covid_icon.bmp"))
+
+        # Position
+        # y -= number (up), y += number (down)
+        # x -= number (left), y += number (right)
+        covid_x.append(random.randint(10, 800))
+        covid_y.append(random.randint(50, 150))
+
+        # Movement of sanitizer to be added to sanitizer_x and sanitizer_y
+        covid_x_move.append(random.randint(5, 10))
+        covid_y_move.append(random.uniform(0.1, 0.5))
 
 
 # Create simple game loop
@@ -141,10 +173,13 @@ def main_loop():  # Red Green Blue
         global text_y
         global text_x
 
-        screen.fill((0, 0, 0))
+        background = pygame.image.load("background.png")
+
+        screen.blit(background, (0, 0))
         # Check if use click x button of the window. If true, exit game.
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                reset_covid()
                 running = False
 
             # User control to the sanitizer
@@ -152,13 +187,14 @@ def main_loop():  # Red Green Blue
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     sanitizer_x_move -= 15
-                elif event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT:
                     sanitizer_x_move += 15
-                elif event.key == pygame.K_SPACE:
-                    if droplets_state == "ready":
+                if event.key == pygame.K_SPACE:
+                    if droplets_state is "ready":
                         droplets_x = sanitizer_x
                         shoot(droplets_x, droplets_y)
-                elif event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:
+                    reset_covid()
                     running = False
 
             if event.type == pygame.KEYUP:
@@ -180,10 +216,9 @@ def main_loop():  # Red Green Blue
             sanitizer_y = 525
 
         for i in range(covid_num):
-
-            if covid_y[i] > 450:
+            if covid_y[i] > 445:
                 for j in range(covid_num):
-                    covid_y[j] = 2000
+                    covid_y[j] = 4000
                 game_over()
                 break
 
