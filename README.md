@@ -1,4 +1,4 @@
-# shooting-game
+# COVID-shoot
 
 A game build with Python using [pygame](https://pygame.org) module to shoot COVID-19 with sanitizer.
 
