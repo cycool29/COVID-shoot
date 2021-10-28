@@ -145,7 +145,6 @@ def main_loop():  # Red Green Blue
         # Check if use click x button of the window. If true, exit game.
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                # Set running status to false
                 running = False
 
             # User control to the sanitizer
