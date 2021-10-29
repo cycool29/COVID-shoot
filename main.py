@@ -41,15 +41,22 @@ covid_num = 6
 # noinspection PyUnboundLocalVariable
 if covid_speed_type == "Default":
     covid_speed_default = 0
+    covid_x_speed_between_a = 5
+    covid_x_speed_between_b = 10
+    covid_y_speed_between_a = 0.1
+    covid_y_speed_between_b = 0.5
 elif covid_speed_type == "Fast":
     covid_speed_default = 1
+    covid_x_speed_between_a = 20
+    covid_x_speed_between_b = 30
+    covid_y_speed_between_a = 0.3
+    covid_y_speed_between_b = 0.7
 elif covid_speed_type == "Slow":
     covid_speed_default = 2
 elif covid_speed_type == "Very fast":
     covid_speed_default = 3
 elif covid_speed_type == "Very slow":
     covid_speed_default = 4
-
 
 covid_x_speed_between_a = 5
 covid_x_speed_between_b = 10
@@ -83,20 +90,8 @@ def set_covid_speed(selected_item, kwargs):
         covid_y_speed_between_a = 0.3
         covid_y_speed_between_b = 0.7
 
+    reset_covid()
 
-for each in range(covid_num):
-    # Create enemy (COVID)
-    covid.append(pygame.image.load("covid_icon.bmp"))
-
-    # Position
-    # y -= number (up), y += number (down)
-    # x -= number (left), y += number (right)
-    covid_x.append(random.randint(10, 800))
-    covid_y.append(random.randint(50, 150))
-
-    # Movement of sanitizer to be added to sanitizer_x and sanitizer_y
-    covid_x_move.append(random.randint(5, 10))
-    covid_y_move.append(random.uniform(0.1, 0.5))
 
 # Create enemy (COVID)
 droplets = pygame.image.load("water_drops.bmp")
@@ -178,7 +173,7 @@ def reset_covid():  # Reset covid stats after game over and exit
     covid_y = []
     covid_y_move = []
     covid_x_move = []
-    for enemy in range(covid_num):
+    for each_enemy in range(covid_num):
         # Create enemy (COVID)
         covid.append(pygame.image.load("covid_icon.bmp"))
 
@@ -189,8 +184,12 @@ def reset_covid():  # Reset covid stats after game over and exit
         covid_y.append(random.randint(50, 150))
 
         # Movement of sanitizer to be added to sanitizer_x and sanitizer_y
-        covid_x_move.append(random.randint(5, 10))
-        covid_y_move.append(random.uniform(0.1, 0.5))
+        print(covid_x_speed_between_a)
+        covid_x_move.append(random.randint(covid_x_speed_between_a, covid_x_speed_between_b))
+        covid_y_move.append(random.uniform(covid_y_speed_between_a, covid_y_speed_between_b))
+
+
+reset_covid()
 
 
 # Create simple game loop
@@ -274,10 +273,10 @@ def main_loop():  # Red Green Blue
             covid_y[i] += covid_y_move[i]
 
             if covid_x[i] <= -10:
-                covid_x_move[i] = 10
+                covid_x_move[i] = covid_x_move[i] * -1
                 covid_y[i] += covid_y_move[i]
             elif covid_x[i] >= 750:
-                covid_x_move[i] = -10
+                covid_x_move[i] = covid_x_move[i] * -1
                 covid_y[i] += covid_y_move[i]
 
             is_collision = collision(covid_x[i], covid_y[i], droplets_x, droplets_y)
