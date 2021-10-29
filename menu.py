@@ -1,6 +1,7 @@
-import main
 import pygame
 import pygame_menu
+
+import main
 
 # Initialize pygame
 pygame.init()
@@ -55,6 +56,31 @@ theme.background_color = background
 theme.title_background_color = (255, 0, 0)
 theme.title_font_size = 40
 
+items = [('Default', "Default"),
+         ('Fast', "Fast"),
+         ('Slow', "Slow"),
+         ('Very fast', "Very fast"),
+         ('Very slow', "Very slow")]
+
+
+def show_changes(selected_item, kwargs):
+    print(selected_item[1])
+    print(kwargs)
+
+
+def settings_menu():
+    settings_page = pygame_menu.Menu('Game settings', 800, 600, theme=theme)
+    settings_page.add.selector(
+        title="Choose COVID's speed: ",
+        items=items,
+        style=pygame_menu.widgets.SELECTOR_STYLE_FANCY,
+        style_fancy_bgcolor=(255, 0, 0),
+        default=main.covid_speed_default,
+        onchange=main.set_covid_speed
+    )
+    settings_page.add.button('Return to Main menu', action=main_menu)
+    settings_page.mainloop(surface)
+
 
 # Simple help section
 def help_menu():
@@ -70,7 +96,7 @@ def help_menu():
 def about():
     help_page = pygame_menu.Menu('About this project', 800, 600, theme=theme)
     about_text_1 = "This is my project for Coolest Project Malaysia competition.\n"
-    about_text_2 = "I have chosen Python as the language to use in this project because it is much more friendly to a "\
+    about_text_2 = "I have chosen Python as the language to use in this project because it is much more friendly to a " \
                    "newbie to programming world than Unity or any other else programming languages or game engine. \n"
     about_text_3 = "I believe that Pygame module is capable to build a perfect 2D game in more simple way. "
     about_text_4 = "Project Github link: https://github.com/cycool29/COVID-shoot\n"
@@ -86,6 +112,7 @@ def about():
 def main_menu():
     menu = pygame_menu.Menu('COVID-shoot', 800, 600, theme=theme)
     menu.add.button('Play', action=play)
+    menu.add.button('Settings', action=settings_menu)
     menu.add.button('Help', action=help_menu)
     menu.add.button("About", action=about)
     menu.add.button('Quit', action=pygame_menu.events.EXIT)

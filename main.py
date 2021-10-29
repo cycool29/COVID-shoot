@@ -3,6 +3,7 @@ import math
 import random
 
 import pygame
+from settings import *
 
 # Initialize pygame module
 pygame.init()
@@ -35,6 +36,53 @@ covid_y = []
 covid_y_move = []
 covid_x_move = []
 covid_num = 6
+
+# Covid settings
+# noinspection PyUnboundLocalVariable
+if covid_speed_type == "Default":
+    covid_speed_default = 0
+elif covid_speed_type == "Fast":
+    covid_speed_default = 1
+elif covid_speed_type == "Slow":
+    covid_speed_default = 2
+elif covid_speed_type == "Very fast":
+    covid_speed_default = 3
+elif covid_speed_type == "Very slow":
+    covid_speed_default = 4
+
+
+covid_x_speed_between_a = 5
+covid_x_speed_between_b = 10
+covid_y_speed_between_a = 0.1
+covid_y_speed_between_b = 0.5
+
+
+def set_covid_speed(selected_item, kwargs):
+    global covid_x_speed_between_a
+    global covid_x_speed_between_b
+    global covid_y_speed_between_a
+    global covid_y_speed_between_b
+    global covid_y_move
+    global covid_speed_default
+    global covid_speed_type
+
+    covid_speed_default = selected_item[1]
+
+    f = open("settings.py", "w")
+    f.write("covid_speed_type = " + '"' + kwargs + '"')
+    f.close()
+
+    if kwargs == "Default":
+        covid_x_speed_between_a = 5
+        covid_x_speed_between_b = 10
+        covid_y_speed_between_a = 0.1
+        covid_y_speed_between_b = 0.5
+    elif kwargs == "Fast":
+        covid_x_speed_between_a = 20
+        covid_x_speed_between_b = 30
+        covid_y_speed_between_a = 0.3
+        covid_y_speed_between_b = 0.7
+
 
 for each in range(covid_num):
     # Create enemy (COVID)
@@ -119,7 +167,7 @@ def shoot(x, y):
     screen.blit(droplets, (x, y))
 
 
-def reset_covid(): # Reset covid stats after game over and exit
+def reset_covid():  # Reset covid stats after game over and exit
     global covid
     global covid_x
     global covid_y
