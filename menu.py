@@ -86,7 +86,7 @@ def about():
 def main_menu():
     menu = pygame_menu.Menu('COVID-shoot', 800, 600, theme=theme)
     menu.add.button('Play', action=play)
-    menu.add.button('How to play?', action=help_menu)
+    menu.add.button('Help', action=help_menu)
     menu.add.button("About", action=about)
     menu.add.button('Quit', action=pygame_menu.events.EXIT)
     menu.mainloop(surface)
