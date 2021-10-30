@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=COVID-shoot
+Comment=A game build with Python using pygame module to shoot COVID-19 with sanitizer.
+Exec=COVID-shoot
+Icon=/usr/lib/COVID-shoot/covid_icon.png
+Categories=Game;
+StartupNotify=true
+StartupWMClass=COVID-shoot

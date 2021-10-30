@@ -1,18 +1,18 @@
 import pygame
 import pygame_menu
-import settings
-import main
+import COVID_shoot.settings
+import COVID_shoot.main
 
 # Initialize pygame
 pygame.init()
 surface = pygame.display.set_mode((800, 600))
-
-window_icon = pygame.image.load("covid_icon.bmp")
+ 
+window_icon = pygame.image.load("/usr/lib/COVID-shoot/covid_icon.bmp")
 pygame.display.set_icon(window_icon)
 
 # Create background image
 background = pygame_menu.baseimage.BaseImage(
-    image_path="covid-background.jpg",
+    image_path="/usr/lib/COVID-shoot/covid-background.jpg",
     drawing_mode=pygame_menu.baseimage.IMAGE_MODE_SIMPLE
 )
 
@@ -22,7 +22,7 @@ def play():
     # Add 321 countdown
     window = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
-    font = pygame.font.SysFont('Quicksand-SemiBold.ttf', 100)
+    font = pygame.font.SysFont('/usr/lib/COVID-shoot/Quicksand-SemiBold.ttf', 100)
     counter = 3
     text = font.render(str(counter), True, (255, 0, 0))
     timer_event = pygame.USEREVENT + 1
@@ -39,9 +39,8 @@ def play():
                 if counter == 0:
                     pygame.time.set_timer(timer_event, 0)
                     run = False
-                    main.main_loop()
+                    COVID_shoot.main.main_loop()
         # Fill screen in black
-        import settings
         window.fill((0, 0, 0))
         text_rect = text.get_rect(center=window.get_rect().center)
         window.blit(text, text_rect)
@@ -69,8 +68,8 @@ def settings_menu():
         items=covid_speeds,
         style=pygame_menu.widgets.SELECTOR_STYLE_FANCY,
         style_fancy_bgcolor=(255, 0, 0),
-        default=main.covid_speed_default,
-        onchange=main.set_covid_speed
+        default=COVID_shoot.main.covid_speed_default,
+        onchange=COVID_shoot.main.set_covid_speed
     )
     settings_page.add.button('Return to Main menu', action=main_menu)
     settings_page.mainloop(surface)

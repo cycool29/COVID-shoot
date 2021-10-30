@@ -2,7 +2,7 @@
 import math
 import random
 import pygame
-from settings import *
+from COVID_shoot.settings import *
 
 # Initialize pygame module
 pygame.init()
@@ -13,11 +13,11 @@ screen = pygame.display.set_mode(screen_size)
 
 # Create window title and icon
 pygame.display.set_caption("COVID-shoot")
-window_icon = pygame.image.load("covid_icon.bmp")
+window_icon = pygame.image.load("/usr/lib/COVID-shoot/covid_icon.bmp")
 pygame.display.set_icon(window_icon)
 
 # Create hand sanitizer
-sanitizer = pygame.image.load("sanitizer.bmp")
+sanitizer = pygame.image.load("/usr/lib/COVID-shoot/sanitizer.bmp")
 
 # Position of sanitizer
 # y -= number (up), y += number (down)
@@ -64,7 +64,7 @@ elif covid_speed_type == "Very fast":
     covid_y_speed_between_b = 0.25
 
 # Create enemy (COVID)
-droplets = pygame.image.load("water_drops.bmp")
+droplets = pygame.image.load("/usr/lib/COVID-shoot/water_drops.bmp")
 
 # Position
 # y -= number (up), y += number (down)
@@ -82,7 +82,7 @@ droplets_y_move = 10
 
 # Score
 score_value = 0
-font = pygame.font.Font('Quicksand-SemiBold.ttf', 32)
+font = pygame.font.Font('/usr/lib/COVID-shoot/Quicksand-SemiBold.ttf', 32)
 
 text_x = 10
 text_y = 10
@@ -93,7 +93,7 @@ help_y = 100
 hover_x = 20
 hover_y = 10
 
-over_font = pygame.font.Font('Quicksand-SemiBold.ttf', 64)
+over_font = pygame.font.Font('/usr/lib/COVID-shoot/Quicksand-SemiBold.ttf', 64)
 
 
 def set_settings(speed):
@@ -196,7 +196,7 @@ def reset_covid():  # Reset covid stats after game over and exit
     covid_x_move = []
     for _ in range(covid_num):
         # Create enemy (COVID)
-        covid.append(pygame.image.load("covid_icon.bmp"))
+        covid.append(pygame.image.load("/usr/lib/COVID-shoot/covid_icon.bmp"))
 
         # Position
         # y -= number (up), y += number (down)
@@ -240,7 +240,7 @@ def main_loop():  # Red Green Blue
         global text_y
         global text_x
 
-        background = pygame.image.load("background.png")
+        background = pygame.image.load("/usr/lib/COVID-shoot/background.png")
 
         screen.blit(background, (0, 0))
         # Check if use click x button of the window. If true, exit game.
@@ -258,7 +258,7 @@ def main_loop():  # Red Green Blue
                 if event.key == pygame.K_RIGHT:
                     sanitizer_x_move += 15
                 if event.key == pygame.K_SPACE:
-                    if droplets_state == "ready":
+                    if droplets_state is "ready":
                         droplets_x = sanitizer_x
                         shoot(droplets_x, droplets_y)
                 if event.key == pygame.K_ESCAPE:
