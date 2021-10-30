@@ -1,7 +1,9 @@
-# Import the pygame module
-import pygame
-import random
+# Import modules
 import math
+import random
+
+import pygame
+from settings import *
 
 # Initialize pygame module
 pygame.init()
@@ -22,7 +24,7 @@ sanitizer = pygame.image.load("sanitizer.bmp")
 # y -= number (up), y += number (down)
 # x -= number (left), y += number (right)
 sanitizer_x = 370
-sanitizer_y = 480
+sanitizer_y = 500
 
 # Movement of sanitizer to be added to sanitizer_x and sanitizer_y
 sanitizer_x_move = 0
@@ -35,19 +37,61 @@ covid_y_move = []
 covid_x_move = []
 covid_num = 6
 
-for i in range(covid_num):
-    # Create enemy (COVID)
-    covid.append(pygame.image.load("covid_icon.bmp"))
+# Covid settings
+# noinspection PyUnboundLocalVariable
+if covid_speed_type == "Default":
+    covid_speed_default = 0
+    covid_x_speed_between_a = 5
+    covid_x_speed_between_b = 10
+    covid_y_speed_between_a = 0.1
+    covid_y_speed_between_b = 0.5
+elif covid_speed_type == "Fast":
+    covid_speed_default = 1
+    covid_x_speed_between_a = 20
+    covid_x_speed_between_b = 30
+    covid_y_speed_between_a = 0.3
+    covid_y_speed_between_b = 0.7
+elif covid_speed_type == "Slow":
+    covid_speed_default = 2
+elif covid_speed_type == "Very fast":
+    covid_speed_default = 3
+elif covid_speed_type == "Very slow":
+    covid_speed_default = 4
 
-    # Position
-    # y -= number (up), y += number (down)
-    # x -= number (left), y += number (right)
-    covid_x.append(random.randint(10, 800))
-    covid_y.append(random.randint(50, 150))
+covid_x_speed_between_a = 5
+covid_x_speed_between_b = 10
+covid_y_speed_between_a = 0.1
+covid_y_speed_between_b = 0.5
 
-    # Movement of sanitizer to be added to sanitizer_x and sanitizer_y
-    covid_x_move.append(random.randint(5, 10))
-    covid_y_move.append(random.uniform(0.1, 0.5))
+
+def set_covid_speed(selected_item, kwargs):
+    global covid_x_speed_between_a
+    global covid_x_speed_between_b
+    global covid_y_speed_between_a
+    global covid_y_speed_between_b
+    global covid_y_move
+    global covid_speed_default
+    global covid_speed_type
+
+    covid_speed_default = selected_item[1]
+
+    f = open("settings.py", "w")
+    f.write("covid_speed_type = " + '"' + kwargs + '"')
+    f.close()
+
+    if kwargs == "Default":
+        covid_x_speed_between_a = 5
+        covid_x_speed_between_b = 10
+        covid_y_speed_between_a = 0.1
+        covid_y_speed_between_b = 0.5
+    elif kwargs == "Fast":
+        covid_x_speed_between_a = 20
+        covid_x_speed_between_b = 30
+        covid_y_speed_between_a = 0.3
+        covid_y_speed_between_b = 0.7
+
+    reset_covid()
+
 
 # Create enemy (COVID)
 droplets = pygame.image.load("water_drops.bmp")
@@ -73,10 +117,25 @@ font = pygame.font.Font('Quicksand-SemiBold.ttf', 32)
 text_x = 10
 text_y = 10
 
+help_x = 150
+help_y = 100
+
+hover_x = 20
+hover_y = 10
+
+over_font = pygame.font.Font('Quicksand-SemiBold.ttf', 64)
+
 
 def show_score(x, y):
     score = font.render("Score: " + str(score_value), True, (0, 255, 0))
     screen.blit(score, (x, y))
+
+
+def game_over():
+    over_text = over_font.render("GAME OVER ...", True, (255, 0, 0))
+    over_caption = font.render("Press Esc to exit.", True, (255, 0, 0))
+    screen.blit(over_text, (200, 200))
+    screen.blit(over_caption, (270, 280))
 
 
 # Define function to show and control sanitizer
@@ -89,7 +148,7 @@ def covid_control(x, y, img):
     screen.blit(covid[img], (x, y))
 
 
-def isCollision(enemy_x, enemy_y, bullet_x, bullet_y):
+def collision(enemy_x, enemy_y, bullet_x, bullet_y):
     distance = math.sqrt((math.pow(enemy_x - bullet_x, 2)) + (math.pow(enemy_y - bullet_y, 2)))
     if distance < 27:
         return True
@@ -103,78 +162,141 @@ def shoot(x, y):
     screen.blit(droplets, (x, y))
 
 
+def reset_covid():  # Reset covid stats after game over and exit
+    global covid
+    global covid_x
+    global covid_y
+    global covid_y_move
+    global covid_x_move
+    covid = []
+    covid_x = []
+    covid_y = []
+    covid_y_move = []
+    covid_x_move = []
+    for each_enemy in range(covid_num):
+        # Create enemy (COVID)
+        covid.append(pygame.image.load("covid_icon.bmp"))
+
+        # Position
+        # y -= number (up), y += number (down)
+        # x -= number (left), y += number (right)
+        covid_x.append(random.randint(10, 800))
+        covid_y.append(random.randint(50, 150))
+
+        # Movement of sanitizer to be added to sanitizer_x and sanitizer_y
+        print(covid_x_speed_between_a)
+        covid_x_move.append(random.randint(covid_x_speed_between_a, covid_x_speed_between_b))
+        covid_y_move.append(random.uniform(covid_y_speed_between_a, covid_y_speed_between_b))
+
+
+reset_covid()
+
+
 # Create simple game loop
-running = True
-while running:
-    # Red Green Blue
-    screen.fill((0, 0, 0))
-    # Check if use click x button of the window. If true, exit game.
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+def main_loop():  # Red Green Blue
+    running = True
+    while running:
+        global screen_size
+        global screen
+        global sanitizer
+        global sanitizer_x
+        global sanitizer_y
+        global sanitizer_x_move
+        global sanitizer_y_move
+        global covid
+        global covid_x
+        global covid_y
+        global covid_y_move
+        global covid_x_move
+        global covid_num
+        global droplets
+        global droplets_x
+        global droplets_y
+        global droplets_state
+        global droplets_x_move
+        global droplets_y_move
+        global score_value
+        global font
+        global text_y
+        global text_x
 
-        # User control to the sanitizer
-        # When user pressing key, check what key that user pressed
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                sanitizer_x_move -= 15
-            if event.key == pygame.K_RIGHT:
-                sanitizer_x_move += 15
-            if event.key == pygame.K_SPACE:
-                if droplets_state is "ready":
-                    droplets_x = sanitizer_x
-                    shoot(droplets_x, droplets_y)
+        background = pygame.image.load("background.png")
 
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                sanitizer_x_move = 0
-            if event.key == pygame.K_DOWN or event.key == pygame.K_UP:
-                sanitizer_y_move = 0
+        screen.blit(background, (0, 0))
+        # Check if use click x button of the window. If true, exit game.
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                reset_covid()
+                running = False
 
-    sanitizer_x += sanitizer_x_move
-    sanitizer_y += sanitizer_y_move
+            # User control to the sanitizer
+            # When user pressing key, check what key that user pressed
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    sanitizer_x_move -= 15
+                if event.key == pygame.K_RIGHT:
+                    sanitizer_x_move += 15
+                if event.key == pygame.K_SPACE:
+                    if droplets_state is "ready":
+                        droplets_x = sanitizer_x
+                        shoot(droplets_x, droplets_y)
+                if event.key == pygame.K_ESCAPE:
+                    reset_covid()
+                    running = False
 
-    if sanitizer_x <= -10:
-        sanitizer_x = -10
-    elif sanitizer_x >= 750:
-        sanitizer_x = 750
-    if sanitizer_y <= 0:
-        sanitizer_y = 0
-    elif sanitizer_y >= 525:
-        sanitizer_y = 525
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    sanitizer_x_move = 0
+                if event.key == pygame.K_DOWN or event.key == pygame.K_UP:
+                    sanitizer_y_move = 0
 
-    for i in range(covid_num):
+        sanitizer_x += sanitizer_x_move
+        sanitizer_y += sanitizer_y_move
 
+        if sanitizer_x <= -10:
+            sanitizer_x = -10
+        elif sanitizer_x >= 750:
+            sanitizer_x = 750
+        if sanitizer_y <= 0:
+            sanitizer_y = 0
+        elif sanitizer_y >= 525:
+            sanitizer_y = 525
 
-        covid_x[i] += covid_x_move[i]
-        covid_y[i] += covid_y_move[i]
+        for i in range(covid_num):
+            if covid_y[i] > 445:
+                for j in range(covid_num):
+                    covid_y[j] = 4000
+                game_over()
+                break
 
-        if covid_x[i] <= -10:
-            covid_x_move[i] = 10
+            covid_x[i] += covid_x_move[i]
             covid_y[i] += covid_y_move[i]
-        elif covid_x[i] >= 750:
-            covid_x_move[i] = -10
-            covid_y[i] += covid_y_move[i]
 
-        collision = isCollision(covid_x[i], covid_y[i], droplets_x, droplets_y)
-        if collision:
-            droplets_y = 480
+            if covid_x[i] <= -10:
+                covid_x_move[i] = covid_x_move[i] * -1
+                covid_y[i] += covid_y_move[i]
+            elif covid_x[i] >= 750:
+                covid_x_move[i] = covid_x_move[i] * -1
+                covid_y[i] += covid_y_move[i]
+
+            is_collision = collision(covid_x[i], covid_y[i], droplets_x, droplets_y)
+            if is_collision:
+                droplets_y = 480
+                droplets_state = "ready"
+                score_value += 1
+                covid_x[i] = random.randint(0, 800)
+                covid_y[i] = random.randint(50, 150)
+
+            covid_control(covid_x[i], covid_y[i], i)
+
+        if droplets_y <= 0:
             droplets_state = "ready"
-            score_value += 1
-            print(score_value)
-            covid_x[i] = random.randint(0, 800)
-            covid_y[i] = random.randint(50, 150)
+            droplets_y = 480
 
-        covid_control(covid_x[i], covid_y[i], i)
+        if droplets_state == "shoot":
+            shoot(droplets_x, droplets_y)
+            droplets_y -= droplets_y_move
 
-    if droplets_y <= 0:
-        droplets_state = "ready"
-        droplets_y = 480
-
-    if droplets_state == "shoot":
-        shoot(droplets_x, droplets_y)
-        droplets_y -= droplets_y_move
-
-    sanitizer_control(sanitizer_x, sanitizer_y)
-    show_score(text_x, text_y)
-    pygame.display.update()
+        sanitizer_control(sanitizer_x, sanitizer_y)
+        show_score(text_x, text_y)
+        pygame.display.update()
