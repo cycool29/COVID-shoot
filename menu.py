@@ -1,6 +1,6 @@
 import pygame
 import pygame_menu
-
+from settings import *
 import main
 
 # Initialize pygame
@@ -40,8 +40,8 @@ def play():
                     pygame.time.set_timer(timer_event, 0)
                     run = False
                     main.main_loop()
-                    # run = False
         # Fill screen in black
+        import settings
         window.fill((0, 0, 0))
         text_rect = text.get_rect(center=window.get_rect().center)
         window.blit(text, text_rect)
@@ -56,17 +56,17 @@ theme.background_color = background
 theme.title_background_color = (255, 0, 0)
 theme.title_font_size = 40
 
-items = [('Default', "Default"),
-         ('Fast', "Fast"),
-         ('Slow', "Slow"),
-         ('Very fast', "Very fast")]
+covid_speeds = [('Default', "Default"),
+                ('Fast', "Fast"),
+                ('Slow', "Slow"),
+                ('Very fast', "Very fast")]
 
 
 def settings_menu():
     settings_page = pygame_menu.Menu('Game settings', 800, 600, theme=theme)
     settings_page.add.selector(
         title="Choose COVID's speed: ",
-        items=items,
+        items=covid_speeds,
         style=pygame_menu.widgets.SELECTOR_STYLE_FANCY,
         style_fancy_bgcolor=(255, 0, 0),
         default=main.covid_speed_default,
@@ -90,7 +90,7 @@ def help_menu():
 def about():
     help_page = pygame_menu.Menu('About this project', 800, 600, theme=theme)
     about_text_1 = "This is my project for Coolest Project Malaysia competition.\n"
-    about_text_2 = "I have chosen Python as the language to use in this project because it is much more friendly to a " \
+    about_text_2 = "I have chosen Python as the language to use in this project because it is much more friendly to a "\
                    "newbie to programming world than Unity or any other else programming languages or game engine. \n"
     about_text_3 = "I believe that Pygame module is capable to build a perfect 2D game in more simple way. "
     about_text_4 = "Project Github link: https://github.com/cycool29/COVID-shoot\n"
@@ -105,6 +105,7 @@ def about():
 
 def main_menu():
     menu = pygame_menu.Menu('COVID-shoot', 800, 600, theme=theme)
+    menu.add.label("Highest score: " + str(highest_score))
     menu.add.button('Play', action=play)
     menu.add.button('Settings', action=settings_menu)
     menu.add.button('Help', action=help_menu)

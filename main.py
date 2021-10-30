@@ -96,6 +96,12 @@ hover_y = 10
 over_font = pygame.font.Font('Quicksand-SemiBold.ttf', 64)
 
 
+def set_settings(speed, score):
+    f = open("settings.py", "w")
+    f.write(f"covid_speed_type = '{speed}'\nhighest_score = {score}")
+    f.close()
+
+
 def set_covid_speed(selected_item, kwargs):
     global covid_x_speed_between_a
     global covid_x_speed_between_b
@@ -107,29 +113,31 @@ def set_covid_speed(selected_item, kwargs):
 
     covid_speed_default = selected_item[1]
 
-    f = open("settings.py", "w")
-    f.write("covid_speed_type = " + '"' + kwargs + '"')
-    f.close()
+    set_settings(speed=kwargs, score=highest_score)
 
     if kwargs == "Default":
+        covid_speed_type = "Default"
         covid_speed_default = 0
         covid_x_speed_between_a = 2
         covid_x_speed_between_b = 5
         covid_y_speed_between_a = 0.05
         covid_y_speed_between_b = 0.1
     elif kwargs == "Fast":
+        covid_speed_type = "Fast"
         covid_speed_default = 1
         covid_x_speed_between_a = 4
         covid_x_speed_between_b = 7
         covid_y_speed_between_a = 0.1
         covid_y_speed_between_b = 0.15
     elif kwargs == "Slow":
+        covid_speed_type = "Slow"
         covid_speed_default = 2
         covid_x_speed_between_a = 1
         covid_x_speed_between_b = 4
         covid_y_speed_between_a = 0.01
         covid_y_speed_between_b = 0.05
     elif kwargs == "Very fast":
+        covid_speed_type = "Very fast"
         covid_speed_default = 3
         covid_x_speed_between_a = 6
         covid_x_speed_between_b = 9
@@ -145,10 +153,16 @@ def show_score(x, y):
 
 
 def game_over():
+    global highest_score
+    global covid_speed_type
     over_text = over_font.render("GAME OVER ...", True, (255, 0, 0))
     over_caption = font.render("Press Esc to exit.", True, (255, 0, 0))
     screen.blit(over_text, (200, 200))
     screen.blit(over_caption, (270, 280))
+    if score_value > highest_score:
+        print(score_value)
+        highest_score = score_value
+        set_settings(covid_speed_type, highest_score)
 
 
 # Define function to show and control sanitizer
@@ -186,7 +200,7 @@ def reset_covid():  # Reset covid stats after game over and exit
     covid_y = []
     covid_y_move = []
     covid_x_move = []
-    for each_enemy in range(covid_num):
+    for _ in range(covid_num):
         # Create enemy (COVID)
         covid.append(pygame.image.load("covid_icon.bmp"))
 
