@@ -1,1 +1,1 @@
-covid_speed_type = 'Fast'
+covid_speed_type = 'Default'

@@ -258,7 +258,7 @@ def main_loop():  # Red Green Blue
                 if event.key == pygame.K_RIGHT:
                     sanitizer_x_move += 15
                 if event.key == pygame.K_SPACE:
-                    if droplets_state == "ready":
+                    if droplets_state is "ready":
                         droplets_x = sanitizer_x
                         shoot(droplets_x, droplets_y)
                 if event.key == pygame.K_ESCAPE:
