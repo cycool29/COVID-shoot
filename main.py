@@ -13,7 +13,7 @@ screen = pygame.display.set_mode(screen_size)
 
 # Create window title and icon
 pygame.display.set_caption("COVID-shoot")
-window_icon = pygame.image.load("covid_icon.bmp")
+window_icon = pygame.image.load("covid_icon.png")
 pygame.display.set_icon(window_icon)
 
 # Create hand sanitizer

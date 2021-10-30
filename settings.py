@@ -1,2 +1,2 @@
 covid_speed_type = 'Fast'
-highest_score = 14
+highest_score = 1
