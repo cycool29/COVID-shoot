@@ -1,6 +1,6 @@
 import pygame
 import pygame_menu
-from settings import *
+import settings
 import main
 
 # Initialize pygame
@@ -105,7 +105,6 @@ def about():
 
 def main_menu():
     menu = pygame_menu.Menu('COVID-shoot', 800, 600, theme=theme)
-    menu.add.label("Highest score: " + str(highest_score))
     menu.add.button('Play', action=play)
     menu.add.button('Settings', action=settings_menu)
     menu.add.button('Help', action=help_menu)

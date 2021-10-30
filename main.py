@@ -13,7 +13,7 @@ screen = pygame.display.set_mode(screen_size)
 
 # Create window title and icon
 pygame.display.set_caption("COVID-shoot")
-window_icon = pygame.image.load("covid_icon.png")
+window_icon = pygame.image.load("covid_icon.bmp")
 pygame.display.set_icon(window_icon)
 
 # Create hand sanitizer
@@ -96,9 +96,9 @@ hover_y = 10
 over_font = pygame.font.Font('Quicksand-SemiBold.ttf', 64)
 
 
-def set_settings(speed, score):
+def set_settings(speed):
     f = open("settings.py", "w")
-    f.write(f"covid_speed_type = '{speed}'\nhighest_score = {score}")
+    f.write(f"covid_speed_type = '{speed}'")
     f.close()
 
 
@@ -113,7 +113,7 @@ def set_covid_speed(selected_item, kwargs):
 
     covid_speed_default = selected_item[1]
 
-    set_settings(speed=kwargs, score=highest_score)
+    set_settings(speed=kwargs)
 
     if kwargs == "Default":
         covid_speed_type = "Default"
@@ -153,16 +153,10 @@ def show_score(x, y):
 
 
 def game_over():
-    global highest_score
-    global covid_speed_type
     over_text = over_font.render("GAME OVER ...", True, (255, 0, 0))
     over_caption = font.render("Press Esc to exit.", True, (255, 0, 0))
     screen.blit(over_text, (200, 200))
     screen.blit(over_caption, (270, 280))
-    if score_value > highest_score:
-        print(score_value)
-        highest_score = score_value
-        set_settings(covid_speed_type, highest_score)
 
 
 # Define function to show and control sanitizer
@@ -211,7 +205,6 @@ def reset_covid():  # Reset covid stats after game over and exit
         covid_y.append(random.randint(50, 150))
 
         # Movement of sanitizer to be added to sanitizer_x and sanitizer_y
-        print(covid_x_speed_between_a)
         covid_x_move.append(random.randint(covid_x_speed_between_a, covid_x_speed_between_b))
         covid_y_move.append(random.uniform(covid_y_speed_between_a, covid_y_speed_between_b))
 
