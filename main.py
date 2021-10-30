@@ -1,7 +1,6 @@
 # Import modules
 import math
 import random
-
 import pygame
 from settings import *
 
@@ -41,57 +40,28 @@ covid_num = 6
 # noinspection PyUnboundLocalVariable
 if covid_speed_type == "Default":
     covid_speed_default = 0
-    covid_x_speed_between_a = 5
-    covid_x_speed_between_b = 10
-    covid_y_speed_between_a = 0.1
-    covid_y_speed_between_b = 0.5
+    covid_x_speed_between_a = 2
+    covid_x_speed_between_b = 5
+    covid_y_speed_between_a = 0.05
+    covid_y_speed_between_b = 0.1
 elif covid_speed_type == "Fast":
     covid_speed_default = 1
-    covid_x_speed_between_a = 20
-    covid_x_speed_between_b = 30
-    covid_y_speed_between_a = 0.3
-    covid_y_speed_between_b = 0.7
+    covid_x_speed_between_a = 4
+    covid_x_speed_between_b = 7
+    covid_y_speed_between_a = 0.1
+    covid_y_speed_between_b = 0.15
 elif covid_speed_type == "Slow":
     covid_speed_default = 2
+    covid_x_speed_between_a = 1
+    covid_x_speed_between_b = 4
+    covid_y_speed_between_a = 0.01
+    covid_y_speed_between_b = 0.05
 elif covid_speed_type == "Very fast":
     covid_speed_default = 3
-elif covid_speed_type == "Very slow":
-    covid_speed_default = 4
-
-covid_x_speed_between_a = 5
-covid_x_speed_between_b = 10
-covid_y_speed_between_a = 0.1
-covid_y_speed_between_b = 0.5
-
-
-def set_covid_speed(selected_item, kwargs):
-    global covid_x_speed_between_a
-    global covid_x_speed_between_b
-    global covid_y_speed_between_a
-    global covid_y_speed_between_b
-    global covid_y_move
-    global covid_speed_default
-    global covid_speed_type
-
-    covid_speed_default = selected_item[1]
-
-    f = open("settings.py", "w")
-    f.write("covid_speed_type = " + '"' + kwargs + '"')
-    f.close()
-
-    if kwargs == "Default":
-        covid_x_speed_between_a = 5
-        covid_x_speed_between_b = 10
-        covid_y_speed_between_a = 0.1
-        covid_y_speed_between_b = 0.5
-    elif kwargs == "Fast":
-        covid_x_speed_between_a = 20
-        covid_x_speed_between_b = 30
-        covid_y_speed_between_a = 0.3
-        covid_y_speed_between_b = 0.7
-
-    reset_covid()
-
+    covid_x_speed_between_a = 6
+    covid_x_speed_between_b = 9
+    covid_y_speed_between_a = 0.2
+    covid_y_speed_between_b = 0.25
 
 # Create enemy (COVID)
 droplets = pygame.image.load("water_drops.bmp")
@@ -124,6 +94,49 @@ hover_x = 20
 hover_y = 10
 
 over_font = pygame.font.Font('Quicksand-SemiBold.ttf', 64)
+
+
+def set_covid_speed(selected_item, kwargs):
+    global covid_x_speed_between_a
+    global covid_x_speed_between_b
+    global covid_y_speed_between_a
+    global covid_y_speed_between_b
+    global covid_y_move
+    global covid_speed_default
+    global covid_speed_type
+
+    covid_speed_default = selected_item[1]
+
+    f = open("settings.py", "w")
+    f.write("covid_speed_type = " + '"' + kwargs + '"')
+    f.close()
+
+    if kwargs == "Default":
+        covid_speed_default = 0
+        covid_x_speed_between_a = 2
+        covid_x_speed_between_b = 5
+        covid_y_speed_between_a = 0.05
+        covid_y_speed_between_b = 0.1
+    elif kwargs == "Fast":
+        covid_speed_default = 1
+        covid_x_speed_between_a = 4
+        covid_x_speed_between_b = 7
+        covid_y_speed_between_a = 0.1
+        covid_y_speed_between_b = 0.15
+    elif kwargs == "Slow":
+        covid_speed_default = 2
+        covid_x_speed_between_a = 1
+        covid_x_speed_between_b = 4
+        covid_y_speed_between_a = 0.01
+        covid_y_speed_between_b = 0.05
+    elif kwargs == "Very fast":
+        covid_speed_default = 3
+        covid_x_speed_between_a = 6
+        covid_x_speed_between_b = 9
+        covid_y_speed_between_a = 0.2
+        covid_y_speed_between_b = 0.25
+
+    reset_covid()
 
 
 def show_score(x, y):
@@ -227,6 +240,7 @@ def main_loop():  # Red Green Blue
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 reset_covid()
+                score_value = 0
                 running = False
 
             # User control to the sanitizer
@@ -242,6 +256,7 @@ def main_loop():  # Red Green Blue
                         shoot(droplets_x, droplets_y)
                 if event.key == pygame.K_ESCAPE:
                     reset_covid()
+                    score_value = 0
                     running = False
 
             if event.type == pygame.KEYUP:
@@ -275,9 +290,11 @@ def main_loop():  # Red Green Blue
             if covid_x[i] <= -10:
                 covid_x_move[i] = covid_x_move[i] * -1
                 covid_y[i] += covid_y_move[i]
-            elif covid_x[i] >= 750:
+                covid_x[i] += covid_x_move[i]
+            elif covid_x[i] >= 800:
                 covid_x_move[i] = covid_x_move[i] * -1
                 covid_y[i] += covid_y_move[i]
+                covid_x[i] += covid_x_move[i]
 
             is_collision = collision(covid_x[i], covid_y[i], droplets_x, droplets_y)
             if is_collision:

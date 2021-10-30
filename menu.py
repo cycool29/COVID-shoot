@@ -59,13 +59,7 @@ theme.title_font_size = 40
 items = [('Default', "Default"),
          ('Fast', "Fast"),
          ('Slow', "Slow"),
-         ('Very fast', "Very fast"),
-         ('Very slow', "Very slow")]
-
-
-def show_changes(selected_item, kwargs):
-    print(selected_item[1])
-    print(kwargs)
+         ('Very fast', "Very fast")]
 
 
 def settings_menu():
