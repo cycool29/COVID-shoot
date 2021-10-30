@@ -10,26 +10,39 @@ To run, you will need [pygame](https://pygame.org) and [pygame-menu](https://pyg
 ``` 
 pip3 install pygame pygame-menu
 ```
-### Walk-through
 
-Now clone the repo, and launch `menu.py`.
+### Install
+
+On Windows, [Download the zip](https://github.com/cycool29/COVID-shoot/archive/refs/heads/main.zip) and extract it.
+
+On Linux, clone the repo:
 ```
-git clone https://github.com/cycool29/shooting-game
+git clone https://github.com/cycool29/COVID-shoot
 cd shooting-game
+```
+
+Launch `menu.py` by double click it or in command-line:
+```
 python3 ./menu.py
 ```
 
 Now you should be presented with this screen:
 
-![image](https://user-images.githubusercontent.com/88134003/138396670-9c0e85de-b623-48d6-b86e-28265c71aa94.png)
+![image](https://user-images.githubusercontent.com/88134003/139528488-c7c2c91c-3f85-4691-be25-a8f18fedca6c.png)
 
 - **Play** - As its name suggests, click this button to start the game.
-- **How to play** - Instructions on how to play the game.
+- **Settings** - Control game settings there. Currently only COVID moving speed.
+- **Help** - Instructions on how to play the game.
 - **Quit** - Exit the game.
 
-So, let's click Play, after a 3 secs countdown, the game started and enjoy!
+When you click Play, after a 3 secs countdown, the game started and enjoy!
 
-![image](https://user-images.githubusercontent.com/88134003/138398555-8e17dbd0-84d0-42a9-9c89-f99a276e2c5f.png)
+![image](https://user-images.githubusercontent.com/88134003/139528562-e500e048-f13c-460b-90bf-f7ed86054580.png)
+
+
+Don't let the COVIDs hit the red line! 
+
+![image](https://user-images.githubusercontent.com/88134003/139528575-09b3fac3-a8cf-4874-9735-909782f8117b.png)
 
 
 ## To-do
