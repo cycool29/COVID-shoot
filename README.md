@@ -18,7 +18,7 @@ On Windows, [Download the zip](https://github.com/cycool29/COVID-shoot/archive/r
 On Linux, clone the repo:
 ```
 git clone https://github.com/cycool29/COVID-shoot
-cd shooting-game
+cd COVID-shoot
 ```
 
 Launch `menu.py` by double click it or in command-line:
